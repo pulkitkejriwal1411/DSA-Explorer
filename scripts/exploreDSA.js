@@ -19,7 +19,7 @@ async function ExploringDSA() {
   
   await hre.network.provider.send('hardhat_setBalance', [
     address,
-    ethers.utils.parseEther('272561000.0').toHexString(),
+    ethers.utils.parseEther('27256100000.0').toHexString(),
   ])
 
 
@@ -32,25 +32,30 @@ async function ExploringDSA() {
 
 
   const dsaId = await dsa.getAccounts(address);
-  console.log(dsaId[0].id);
 
   dsa.setInstance(dsaId[0].id);
-
+  
   let spells = await dsa.Spell();
 
 
-  console.log(spells);
+  
 
-  spells.add({
-    connector: "COMPOUND-A",
-    method: "deposit",
-    args: [
-      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      "1000000000000000000",
-      0,
-      0,
-    ],
-  });
+  
+  await hre.network.provider.send("hardhat_setBalance", [
+    dsaId[0]["address"],
+    ethers.utils.parseEther("10.0").toHexString(),
+  ]);
+
+  // spells.add({
+  //   connector: "COMPOUND-A",
+  //   method: "deposit",
+  //   args: [
+  //     "ETH-A",
+  //     "1000000000000000000",
+  //     0,
+  //     0,
+  //   ],
+  // });
 
 
 
@@ -60,7 +65,7 @@ async function ExploringDSA() {
     connector: "AAVE-V2-A",
     method: "deposit",
     args: ["0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", "1000000000000000000", 0, 0]
-  });
+  }); 
   
 
 
