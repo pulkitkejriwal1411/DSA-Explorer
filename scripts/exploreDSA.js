@@ -16,58 +16,54 @@ const dsa = new DSA({
 const address = "0x51571107Cb5c25b3Ef36B714CBAd17F6F900B936";
 
 async function ExploringDSA() {
-  const dsaId = await dsa.getAccounts(address);
-
-  dsa.setInstance(dsaId);
-
-  //const impersonatedAddress = '0x20a2083Db6C9324aEf2fe094ef229E56ffef5A2C';
-
-  // await hre.network.provider.request({
-  //   method: "hardhat_impersonateAccount",
-  //   params: [impersonatedAddress],
-  // });
-
-  // const impersonatedSigner = await ethers.getSigner(impersonatedAddress);
-
-  // await impersonatedSigner.sendTransaction({
-  //   to: address,
-  //   value: '10000000000000000000'
-  // })
-
-
+  
   await hre.network.provider.send('hardhat_setBalance', [
     address,
-    ethers.utils.parseEther('10.0').toHexString(),
+    ethers.utils.parseEther('272561000.0').toHexString(),
   ])
 
 
   await dsa.build({
-    gasPrice: "100000000000000000000",
+    gasPrice: "1000000000000000000",
     from: "0x51571107Cb5c25b3Ef36B714CBAd17F6F900B936",
+    authority: '0x51571107Cb5c25b3Ef36B714CBAd17F6F900B936',
+    version: 2
   });
+
+
+  const dsaId = await dsa.getAccounts(address);
+  console.log(dsaId[0].id);
+
+  dsa.setInstance(dsaId[0].id);
 
   let spells = await dsa.Spell();
 
+
+  console.log(spells);
+
   spells.add({
-    connector: "compound",
+    connector: "COMPOUND-A",
     method: "deposit",
     args: [
-      "0x0000000000000000000000000000000000000000",
+      "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
       "1000000000000000000",
       0,
       0,
     ],
   });
+
+
+
+  
+
   spells.add({
-    connector: "aave",
+    connector: "AAVE-V2-A",
     method: "deposit",
-    args: [
-      "0x0000000000000000000000000000000000000000",
-      "1000000000000000000",
-      0,
-      0,
-    ],
+    args: ["0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", "1000000000000000000", 0, 0]
   });
+  
+
+
   let txnHash = await spells.cast({
     gasPrice: "1000000000000000000",
     nonce: 0,
