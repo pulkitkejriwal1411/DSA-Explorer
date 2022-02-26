@@ -46,16 +46,16 @@ async function ExploringDSA() {
     ethers.utils.parseEther("10.0").toHexString(),
   ]);
 
-  // spells.add({
-  //   connector: "COMPOUND-A",
-  //   method: "deposit",
-  //   args: [
-  //     "ETH-A",
-  //     "1000000000000000000",
-  //     0,
-  //     0,
-  //   ],
-  // });
+  spells.add({
+    connector: "COMPOUND-A",
+    method: "deposit",
+    args: [
+      "ETH-A",
+      "1000000000000000000",
+      0,
+      0,
+    ],
+  });
 
 
   
