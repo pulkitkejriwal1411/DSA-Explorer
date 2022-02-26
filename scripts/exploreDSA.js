@@ -7,11 +7,7 @@ const { ethers } = hre
 require("dotenv").config();
 const privateKey = process.env.PRIVATE_KEY;
 
-const dsa = new DSA({
-  web3: web3,
-  mode: "node",
-  privateKey: privateKey,
-});
+
 
 const address = "0x51571107Cb5c25b3Ef36B714CBAd17F6F900B936";
 
@@ -22,7 +18,11 @@ async function ExploringDSA() {
     ethers.utils.parseEther('27256100000.0').toHexString(),
   ])
 
-
+  const dsa = new DSA({
+    web3: web3,
+    mode: "node",
+    privateKey: privateKey,
+  });
   await dsa.build({
     gasPrice: "1000000000000000000",
     from: "0x51571107Cb5c25b3Ef36B714CBAd17F6F900B936",
@@ -33,7 +33,7 @@ async function ExploringDSA() {
 
   const dsaId = await dsa.getAccounts(address);
 
-  dsa.setInstance(dsaId[0].id);
+  await dsa.setInstance(dsaId[0].id);
   
   let spells = await dsa.Spell();
 
@@ -58,7 +58,6 @@ async function ExploringDSA() {
   // });
 
 
-
   
 
   spells.add({
@@ -71,7 +70,7 @@ async function ExploringDSA() {
 
   let txnHash = await spells.cast({
     gasPrice: "1000000000000000000",
-    nonce: 0,
+    nonce: 1,
   });
 
   console.log(txnHash);
